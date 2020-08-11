@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">LogInPage</string>
+    <string name="user_name">User Name</string>
+    <string name="password">Password</string>
+    <string name="login">Log In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="text">Please Enter Your Log In Information</string>
+    <string name="text_sign_in">Please Enter Your Ideal Information</string>
+    <string name="toast_text">user name or password can not be null and password must be Number</string>
+    <string name="success_login">You Login Successfully</string>
+    <string name="fail_login">Please Enter Correct Information</string>
+</resources>
