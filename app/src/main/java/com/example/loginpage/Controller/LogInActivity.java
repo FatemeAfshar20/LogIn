@@ -16,11 +16,14 @@ import com.example.loginpage.Model.UserInfo;
 import com.example.loginpage.R;
 
 public class LogInActivity extends AppCompatActivity {
+    public static final String EXTRA_PASS = "com.example.loginpage.Controller.User Password";
+    public static final String EXTRA_USERNAME= "com.example.loginpage.Controller.User Name";
 
     Button mBtnLogin, mBtnSignIn;
     EditText mPass, mUserName;
     int REQUEST_CODE_SIGNIN = 1;
     String mPassText, mUsernameText;
+    private UserInfo mUserInfo=new UserInfo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,8 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LogInActivity.this, SignInActivity.class);
+                intent.putExtra(EXTRA_USERNAME,mUserName.getText().toString());
+                intent.putExtra(EXTRA_PASS,mPass.getText().toString());
                 startActivityForResult(intent, REQUEST_CODE_SIGNIN);
             }
         });
@@ -64,7 +69,9 @@ public class LogInActivity extends AppCompatActivity {
             return;
         if (requestCode == REQUEST_CODE_SIGNIN) {
             mPassText = data.getStringExtra(SignInActivity.EXTRA_USER_PASS);
+            mPass.setText(mPassText);
             mUsernameText = data.getStringExtra(SignInActivity.EXTRA_USER_NAME);
+            mUserName.setText(mUsernameText);
         }
     }
 
