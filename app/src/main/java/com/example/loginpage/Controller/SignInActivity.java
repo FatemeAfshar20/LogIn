@@ -1,11 +1,10 @@
 package com.example.loginpage.Controller;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,12 +14,12 @@ import com.example.loginpage.Model.UserInfo;
 import com.example.loginpage.R;
 
 public class SignInActivity extends AppCompatActivity {
-    public static final String EXTRA_USER_PASS = "com.example.loginpage.Controller.User Password";
-    public static final String EXTRA_USER_NAME = "com.example.loginpage.Controller.User Name";
-    private static final int REQUEST_CODE_LOGIN = 0;
+
+    public static final String EXTRA_USER_INFO_SIGN = "com.example.loginpage.Controller.User Information";
     private Button mBtnSignIn;
     private EditText mPass, mUserName;
-    private UserInfo mUserInfo = new UserInfo();
+    private UserInfo mUserInfoThis=new UserInfo();
+    private UserInfo mUserInfoLogin = new UserInfo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +31,13 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void setTextInEditText() {
-        String usernameText = getIntent().getStringExtra(LogInActivity.EXTRA_USERNAME);
-        mUserName.setText(usernameText);
-        mUserInfo.setUserName(usernameText);
-        String passText = getIntent().getStringExtra(LogInActivity.EXTRA_PASS);
-        mPass.setText(passText);
-        mUserInfo.setPassword(passText);
+        mUserInfoLogin=getIntent().getParcelableExtra(LogInActivity.EXTRA_USER_INFO_LOGIN);
+
+        mUserName.setText(mUserInfoLogin.getUserName());
+        mUserInfoThis.setUserName(mUserInfoLogin.getUserName());
+
+        mPass.setText(mUserInfoLogin.getPassword());
+        mUserInfoThis.setPassword(mUserInfoLogin.getPassword());
     }
 
     private void findElem() {
@@ -50,19 +50,26 @@ public class SignInActivity extends AppCompatActivity {
         mBtnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mUserInfo.getUserName().length() != 0 && mUserInfo.getPassword().length() != 0) {
-                    setInfo(mUserInfo);
+                mUserInfoThis.setUserName(mUserName.getText().toString());
+                mUserInfoThis.setPassword(mPass.getText().toString());
+                if (mUserInfoThis.getUserName().length() != 0 && mUserInfoThis.getPassword().length() != 0) {
+                    setInfo(mUserInfoThis);
                     finish();
                 } else
-                    Toast.makeText(SignInActivity.this, R.string.toast_text, Toast.LENGTH_LONG).show();
+                    returnToast(R.string.toast_text);
             }
         });
     }
 
     private void setInfo(UserInfo userInfo) {
         Intent intent = new Intent();
-        intent.putExtra(EXTRA_USER_NAME, userInfo.getUserName());
-        intent.putExtra(EXTRA_USER_PASS, userInfo.getPassword());
+        intent.putExtra(EXTRA_USER_INFO_SIGN,userInfo);
         setResult(RESULT_OK, intent);
+    }
+
+    public void returnToast(int msg) {
+        Toast toast = Toast.makeText(SignInActivity.this, msg, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.TOP,0,150);
+        toast.show();
     }
 }

@@ -15,15 +15,16 @@ import android.widget.Toast;
 import com.example.loginpage.Model.UserInfo;
 import com.example.loginpage.R;
 
-public class LogInActivity extends AppCompatActivity {
-    public static final String EXTRA_PASS = "com.example.loginpage.Controller.User Password";
-    public static final String EXTRA_USERNAME= "com.example.loginpage.Controller.User Name";
+public class LogInActivity extends AppCompatActivity  {
 
-    Button mBtnLogin, mBtnSignIn;
-    EditText mPass, mUserName;
-    int REQUEST_CODE_SIGNIN = 1;
-    String mPassText, mUsernameText;
-    private UserInfo mUserInfo=new UserInfo();
+    public static final String EXTRA_USER_INFO_LOGIN = "com.example.loginpage.Controller.User Information";
+
+    private Button mBtnLogin, mBtnSignIn;
+    private EditText mPass, mUserName;
+    private int REQUEST_CODE_SIGNIN = 1;
+    private UserInfo mUserInfoLogin =new UserInfo();
+    private UserInfo mUserInfoSignIn =new UserInfo();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +45,10 @@ public class LogInActivity extends AppCompatActivity {
         mBtnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mUserInfoLogin.setUserName(mUserName.getText().toString());
+                mUserInfoLogin.setPassword(mPass.getText().toString());
                 Intent intent = new Intent(LogInActivity.this, SignInActivity.class);
-                intent.putExtra(EXTRA_USERNAME,mUserName.getText().toString());
-                intent.putExtra(EXTRA_PASS,mPass.getText().toString());
+                intent.putExtra(EXTRA_USER_INFO_LOGIN, mUserInfoLogin);
                 startActivityForResult(intent, REQUEST_CODE_SIGNIN);
             }
         });
@@ -68,16 +70,15 @@ public class LogInActivity extends AppCompatActivity {
         if (resultCode != Activity.RESULT_OK || data == null)
             return;
         if (requestCode == REQUEST_CODE_SIGNIN) {
-            mPassText = data.getStringExtra(SignInActivity.EXTRA_USER_PASS);
-            mPass.setText(mPassText);
-            mUsernameText = data.getStringExtra(SignInActivity.EXTRA_USER_NAME);
-            mUserName.setText(mUsernameText);
+            mUserInfoSignIn=data.getParcelableExtra(SignInActivity.EXTRA_USER_INFO_SIGN);
+            mPass.setText(mUserInfoSignIn.getPassword());
+            mUserName.setText(mUserInfoSignIn.getUserName());
         }
     }
 
     private boolean isCorrectInfo() {
-        if (mUserName.getText().toString().equals(mUsernameText) &&
-                mPass.getText().toString().equals(mPassText)) {
+        if (mUserName.getText().toString().equals(mUserInfoSignIn.getUserName()) &&
+                mPass.getText().toString().equals(mUserInfoSignIn.getPassword())) {
             return true;
         }
         return false;
@@ -85,6 +86,7 @@ public class LogInActivity extends AppCompatActivity {
 
     public void returnToast(int msg) {
         Toast toast = Toast.makeText(LogInActivity.this, msg, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.TOP,0,100);
         toast.show();
     }
 

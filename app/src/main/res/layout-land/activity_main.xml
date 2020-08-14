@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".Controller.LogInActivity"
     android:background="#fdeffd"
-    >
+    tools:context=".Controller.LogInActivity">
 
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40sp"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="50dp"
         android:fontFamily="@font/segoe_ui"
         android:text="@string/text"
         android:textColor="@color/black"
@@ -26,10 +24,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_width="300dp"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:hint="@string/user_name"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/pass"
@@ -40,21 +47,14 @@
             android:hint="@string/password"
             android:inputType="textPassword" />
 
-        <EditText
-            android:id="@+id/user_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:ems="10"
-            android:hint="@string/user_name"
-            android:inputType="textPersonName" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="40dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -72,8 +72,8 @@
             android:id="@+id/btn_sign_in_signin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
             android:background="@color/beauty_so_pl"
             android:text="@string/sign_up"
             android:textColor="@color/black"
@@ -81,4 +81,4 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>

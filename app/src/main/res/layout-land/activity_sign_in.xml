@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -15,9 +15,10 @@
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40sp"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="60dp"
         android:fontFamily="@font/segoe_ui"
-        android:text="@string/text"
+        android:text="@string/text_sign_in"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,13 +27,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_width="300dp"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/pass"
+            android:id="@+id/user_name_signin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:hint="@string/user_name"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/pass_sigin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -40,39 +50,22 @@
             android:hint="@string/password"
             android:inputType="textPassword" />
 
-        <EditText
-            android:id="@+id/user_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:ems="10"
-            android:hint="@string/user_name"
-            android:inputType="textPersonName" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/beauty_pink_light"
-            android:text="@string/login"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/btn_sign_in_signin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_gravity="bottom|center"
+            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:background="@color/beauty_so_pl"
             android:text="@string/sign_up"
@@ -81,4 +74,4 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>
