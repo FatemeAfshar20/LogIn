@@ -34,18 +34,7 @@ public class UserInfo implements Parcelable {
     }
 
     public void setPassword(String password) {
-        if(isNumeric(password))
             this.password = password;
-        else
-            this.password="";
-    }
-
-    private static boolean isNumeric(String strNum) {
-        for (char c : strNum.toCharArray()) {
-            if (!Character.isDigit(c))
-                return false;
-        }
-        return true;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -86,5 +75,4 @@ public class UserInfo implements Parcelable {
         dest.writeString(this.userName);
         dest.writeString(this.password);
     }
-
 }

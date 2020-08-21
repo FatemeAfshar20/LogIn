@@ -4,21 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.loginpage.Model.UserInfo;
 import com.example.loginpage.R;
+import com.google.android.material.snackbar.Snackbar;
 
 public class SignInActivity extends AppCompatActivity {
 
     public static final String EXTRA_USER_INFO_SIGN = "com.example.loginpage.Controller.User Information";
     private Button mBtnSignIn;
     private EditText mPass, mUserName;
-    private UserInfo mUserInfoThis=new UserInfo();
+    private UserInfo mUserInfoThis = new UserInfo();
     private UserInfo mUserInfoLogin = new UserInfo();
 
     @Override
@@ -31,7 +30,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void setTextInEditText() {
-        mUserInfoLogin=getIntent().getParcelableExtra(LogInActivity.EXTRA_USER_INFO_LOGIN);
+        mUserInfoLogin = getIntent().getParcelableExtra(LogInActivity.EXTRA_USER_INFO_LOGIN);
 
         mUserName.setText(mUserInfoLogin.getUserName());
         mUserInfoThis.setUserName(mUserInfoLogin.getUserName());
@@ -50,26 +49,39 @@ public class SignInActivity extends AppCompatActivity {
         mBtnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mUserInfoThis.setUserName(mUserName.getText().toString());
-                mUserInfoThis.setPassword(mPass.getText().toString());
-                if (mUserInfoThis.getUserName().length() != 0 && mUserInfoThis.getPassword().length() != 0) {
-                    setInfo(mUserInfoThis);
-                    finish();
+                if (isNumeric(mPass.getText().toString())) {
+                    if (mPass.getText().toString().trim().length() > 8){
+                        if (mUserName.getText().toString().length() != 0 && mPass.getText().toString().length() != 0) {
+                            mUserInfoThis.setUserName(mUserName.getText().toString());
+                            mUserInfoThis.setPassword(mPass.getText().toString());
+                            setInfo(mUserInfoThis);
+                            finish();
+                        } else
+                            returnSnackbar(view, R.string.in_correct_input);
+                    }else
+                        returnSnackbar(view,R.string.in_correct_length);
                 } else
-                    returnToast(R.string.toast_text);
+                    returnSnackbar(view, R.string.in_correct_pass);
             }
         });
     }
 
     private void setInfo(UserInfo userInfo) {
         Intent intent = new Intent();
-        intent.putExtra(EXTRA_USER_INFO_SIGN,userInfo);
+        intent.putExtra(EXTRA_USER_INFO_SIGN, userInfo);
         setResult(RESULT_OK, intent);
     }
 
-    public void returnToast(int msg) {
-        Toast toast = Toast.makeText(SignInActivity.this, msg, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.TOP,0,150);
-        toast.show();
+    public void returnSnackbar(View view, int msg) {
+        Snackbar snackbar = Snackbar.make(view, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
+
+    private static boolean isNumeric(String strNum) {
+        for (char c : strNum.toCharArray()) {
+            if (!Character.isDigit(c))
+                return false;
+        }
+        return true;
     }
 }

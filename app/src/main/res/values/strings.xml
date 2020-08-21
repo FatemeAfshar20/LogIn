@@ -5,8 +5,10 @@
     <string name="login">Log In</string>
     <string name="sign_up">Sign Up</string>
     <string name="text">Please Enter Your Log In Information</string>
-    <string name="text_sign_in">Please Enter Your Ideal Information</string>
-    <string name="toast_text">user name or password can not be null and password must be Number</string>
+    <string name="text_sign_in">Please Enter Username and Password</string>
+    <string name="in_correct_input">user name or password can not be empty</string>
+    <string name="in_correct_pass">Password must be Number</string>
+    <string name="in_correct_length">Password must have 8 length and mor</string>
     <string name="success_login">You Login Successfully</string>
     <string name="fail_login">Please Enter Correct Information</string>
 </resources>

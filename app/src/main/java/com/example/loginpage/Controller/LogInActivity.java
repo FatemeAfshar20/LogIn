@@ -1,5 +1,6 @@
 package com.example.loginpage.Controller;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,10 +15,12 @@ import android.widget.Toast;
 
 import com.example.loginpage.Model.UserInfo;
 import com.example.loginpage.R;
+import com.google.android.material.snackbar.Snackbar;
 
 public class LogInActivity extends AppCompatActivity  {
 
     public static final String EXTRA_USER_INFO_LOGIN = "com.example.loginpage.Controller.User Information";
+    public static final String BUNDLE_USER_INFO = "User Login Information (Save Instance)";
 
     private Button mBtnLogin, mBtnSignIn;
     private EditText mPass, mUserName;
@@ -32,6 +35,7 @@ public class LogInActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         findElem();
         setListener();
+        saveUserInformation(savedInstanceState);
     }
 
     private void findElem() {
@@ -45,11 +49,17 @@ public class LogInActivity extends AppCompatActivity  {
         mBtnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mUserInfoLogin.setUserName(mUserName.getText().toString());
-                mUserInfoLogin.setPassword(mPass.getText().toString());
-                Intent intent = new Intent(LogInActivity.this, SignInActivity.class);
-                intent.putExtra(EXTRA_USER_INFO_LOGIN, mUserInfoLogin);
-                startActivityForResult(intent, REQUEST_CODE_SIGNIN);
+
+                if(isNumeric(mPass.getText().toString())) {
+                    mUserInfoLogin.setUserName(mUserName.getText().toString());
+                    mUserInfoLogin.setPassword(mPass.getText().toString());
+                    Intent intent = new Intent(LogInActivity.this, SignInActivity.class);
+                    intent.putExtra(EXTRA_USER_INFO_LOGIN, mUserInfoLogin);
+                    startActivityForResult(intent, REQUEST_CODE_SIGNIN);
+                }
+                else
+                    returnSnackbar(view,R.string.in_correct_pass);
+
             }
         });
 
@@ -57,9 +67,9 @@ public class LogInActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 if (isCorrectInfo())
-                    returnToast(R.string.success_login);
+                    returnSnackbar(v,R.string.success_login);
                 else
-                    returnToast(R.string.fail_login);
+                    returnSnackbar(v,R.string.fail_login);
             }
         });
     }
@@ -71,10 +81,29 @@ public class LogInActivity extends AppCompatActivity  {
             return;
         if (requestCode == REQUEST_CODE_SIGNIN) {
             mUserInfoSignIn=data.getParcelableExtra(SignInActivity.EXTRA_USER_INFO_SIGN);
-            mPass.setText(mUserInfoSignIn.getPassword());
-            mUserName.setText(mUserInfoSignIn.getUserName());
+            if(mUserInfoSignIn!=null)
+                  setUserInfo(mUserInfoSignIn);
         }
     }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(BUNDLE_USER_INFO,mUserInfoSignIn);
+    }
+
+    public void saveUserInformation(Bundle bundle){
+        if(bundle!=null) {
+            mUserInfoSignIn = bundle.getParcelable(BUNDLE_USER_INFO);
+            setUserInfo(mUserInfoLogin);
+        }
+    }
+
+    private void setUserInfo(UserInfo userInfo) {
+        mPass.setText(userInfo.getPassword());
+        mUserName.setText(userInfo.getUserName());
+    }
+
 
     private boolean isCorrectInfo() {
         if (mUserName.getText().toString().equals(mUserInfoSignIn.getUserName()) &&
@@ -84,10 +113,17 @@ public class LogInActivity extends AppCompatActivity  {
         return false;
     }
 
-    public void returnToast(int msg) {
-        Toast toast = Toast.makeText(LogInActivity.this, msg, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.TOP,0,100);
-        toast.show();
+    public void returnSnackbar(View view,int msg) {
+        Snackbar snackbar=Snackbar.make(view,msg,Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
+
+    private static boolean isNumeric(String strNum) {
+        for (char c : strNum.toCharArray()) {
+            if (!Character.isDigit(c))
+                return false;
+        }
+        return true;
     }
 
 }
