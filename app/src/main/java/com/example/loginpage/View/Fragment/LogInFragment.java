@@ -13,24 +13,26 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.loginpage.Model.UserInfo;
+import com.example.loginpage.Presenter.LoginPresenter;
 import com.example.loginpage.R;
 import com.google.android.material.snackbar.Snackbar;
 
-public class LogInFragment extends Fragment {
+public class LogInFragment extends Fragment implements com.example.loginpage.Presenter.View {
 
     public static final String BUNDLE_USER_INFO = "User Login Information (Save Instance)";
     public static final String ARGS_USER_SIGNIN = "User SignIn";
 
     private Button mBtnLogin, mBtnSignIn;
     private EditText mPass, mUserName;
-    private UserInfo mUserInfoSignIn=new UserInfo();
+    private UserInfo mUserInfoSignIn = new UserInfo();
 
+    private LoginPresenter mPresenter;
     private OnClickSignIn mCallback;
 
     public static LogInFragment newInstance(UserInfo userInfo) {
 
         Bundle args = new Bundle();
-        args.putParcelable(ARGS_USER_SIGNIN,userInfo);
+        args.putParcelable(ARGS_USER_SIGNIN, userInfo);
         LogInFragment fragment = new LogInFragment();
         fragment.setArguments(args);
         return fragment;
@@ -40,7 +42,7 @@ public class LogInFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof OnClickSignIn)
-            mCallback= (OnClickSignIn) context;
+            mCallback = (OnClickSignIn) context;
         else
             throw new ClassCastException
                     ("Must Implement OnClickSignIn Interface");
@@ -50,7 +52,9 @@ public class LogInFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mUserInfoSignIn= getArguments().getParcelable(ARGS_USER_SIGNIN);
+        mUserInfoSignIn = getArguments().getParcelable(ARGS_USER_SIGNIN);
+
+        mPresenter = new LoginPresenter(this);
     }
 
     @Nullable
@@ -58,13 +62,13 @@ public class LogInFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view=inflater.
+        View view = inflater.
                 inflate(R.layout.fragment_login,
                         container,
                         false);
         findElem(view);
         setListener();
-       // saveUserInformation(savedInstanceState);
+        // saveUserInformation(savedInstanceState);
         return view;
     }
 
@@ -79,23 +83,14 @@ public class LogInFragment extends Fragment {
         mBtnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(isNumeric(mPass.getText().toString())) {
-                    mCallback.onClickSignIn();
-                }
-                else
-                    returnSnackbar(view,R.string.in_correct_pass);
-
+                mCallback.onClickSignIn();
             }
         });
 
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isCorrectInfo())
-                    returnSnackbar(v,R.string.success_login);
-                else
-                    returnSnackbar(v,R.string.fail_login);
+               mPresenter.isCorrectInfo(mUserName, mPass, mUserInfoSignIn);
             }
         });
     }
@@ -103,38 +98,18 @@ public class LogInFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(BUNDLE_USER_INFO,mUserInfoSignIn);
+        outState.putParcelable(BUNDLE_USER_INFO, mUserInfoSignIn);
     }
 
-/*    public void saveUserInformation(Bundle bundle){
-        if(bundle!=null) {
-            mUserInfoSignIn = bundle.getParcelable(BUNDLE_USER_INFO);
-            setUserInfo(mUserInfoLogin);
-        }
-    }*/
 
-    private boolean isCorrectInfo() {
-        if (mUserName.getText().toString().equals(mUserInfoSignIn.getUserName()) &&
-                mPass.getText().toString().equals(mUserInfoSignIn.getPassword())) {
-            return true;
-        }
-        return false;
-    }
-
-    public void returnSnackbar(View view,int msg) {
-        Snackbar snackbar=Snackbar.make(view,msg,Snackbar.LENGTH_LONG);
+    @Override
+    public void returnSnackbar(int msg) {
+        Snackbar snackbar = Snackbar.make(getView(), msg, Snackbar.LENGTH_LONG);
         snackbar.show();
     }
 
-    private static boolean isNumeric(String strNum) {
-        for (char c : strNum.toCharArray()) {
-            if (!Character.isDigit(c))
-                return false;
-        }
-        return true;
-    }
 
-    public interface OnClickSignIn{
+    public interface OnClickSignIn {
         void onClickSignIn();
     }
 }
