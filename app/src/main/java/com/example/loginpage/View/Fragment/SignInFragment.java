@@ -1,61 +1,71 @@
-package com.example.loginpage.Controller;
+package com.example.loginpage.View.Fragment;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.loginpage.Model.UserInfo;
 import com.example.loginpage.R;
+import com.example.loginpage.View.Activity.LogInActivity;
 import com.google.android.material.snackbar.Snackbar;
 
-public class SignInActivity extends AppCompatActivity {
-
-    public static final String EXTRA_USER_INFO_SIGN = "com.example.loginpage.Controller.User Information";
+public class SignInFragment extends Fragment {
     private Button mBtnSignIn;
     private EditText mPass, mUserName;
-    private UserInfo mUserInfoThis = new UserInfo();
-    private UserInfo mUserInfoLogin = new UserInfo();
 
+    public static SignInFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        SignInFragment fragment = new SignInFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
-        findElem();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view=inflater.inflate(R.layout.activity_sign_in,
+                container,
+                false);
+
+        findElem(view);
         setListener();
-        setTextInEditText();
+        return view;
     }
 
-    private void setTextInEditText() {
-        mUserInfoLogin = getIntent().getParcelableExtra(LogInActivity.EXTRA_USER_INFO_LOGIN);
-
-        mUserName.setText(mUserInfoLogin.getUserName());
-        mUserInfoThis.setUserName(mUserInfoLogin.getUserName());
-
-        mPass.setText(mUserInfoLogin.getPassword());
-        mUserInfoThis.setPassword(mUserInfoLogin.getPassword());
-    }
-
-    private void findElem() {
-        mBtnSignIn = findViewById(R.id.btn_sign_in_signin);
-        mPass = findViewById(R.id.pass_sigin);
-        mUserName = findViewById(R.id.user_name_signin);
+    private void findElem(View view) {
+        mBtnSignIn = view.findViewById(R.id.btn_sign_in_signin);
+        mPass = view.findViewById(R.id.pass_sigin);
+        mUserName = view.findViewById(R.id.user_name_signin);
     }
 
     private void setListener() {
         mBtnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                UserInfo mUserInfoThis = new UserInfo();
+
                 if (isNumeric(mPass.getText().toString())) {
                     if (mPass.getText().toString().trim().length() > 8){
                         if (mUserName.getText().toString().length() != 0 && mPass.getText().toString().length() != 0) {
                             mUserInfoThis.setUserName(mUserName.getText().toString());
                             mUserInfoThis.setPassword(mPass.getText().toString());
-                            setInfo(mUserInfoThis);
-                            finish();
+                            LogInActivity.start(getContext(),mUserInfoThis);
+                            getActivity().finish();
                         } else
                             returnSnackbar(view, R.string.in_correct_input);
                     }else
@@ -64,12 +74,6 @@ public class SignInActivity extends AppCompatActivity {
                     returnSnackbar(view, R.string.in_correct_pass);
             }
         });
-    }
-
-    private void setInfo(UserInfo userInfo) {
-        Intent intent = new Intent();
-        intent.putExtra(EXTRA_USER_INFO_SIGN, userInfo);
-        setResult(RESULT_OK, intent);
     }
 
     public void returnSnackbar(View view, int msg) {

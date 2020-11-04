@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fdeffd"
-    tools:context=".Controller.LogInActivity">
+    tools:context=".View.Fragment.LogInFragment">
 
     <TextView
         android:id="@+id/text"
