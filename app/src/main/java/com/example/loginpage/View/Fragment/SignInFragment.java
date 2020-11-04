@@ -38,7 +38,7 @@ public class SignInFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.activity_sign_in,
+        View view=inflater.inflate(R.layout.fragment_signin,
                 container,
                 false);
 
