@@ -5,18 +5,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".Controller.LogInActivity"
     android:background="#fdeffd"
-    >
+    tools:context=".Controller.Activity.Activity">
 
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|top"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="50dp"
         android:fontFamily="@font/segoe_ui"
         android:text="@string/text_sign_in"
         android:textColor="@color/black"
@@ -33,7 +30,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/user_name_signin"
+            android:id="@+id/user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -42,7 +39,7 @@
             android:inputType="textPersonName" />
 
         <EditText
-            android:id="@+id/pass_sigin"
+            android:id="@+id/pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -56,17 +53,27 @@
         android:id="@+id/buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="100dp"
-        android:orientation="vertical">
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="40dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/beauty_pink_light"
+            android:text="@string/login"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_sign_in_signin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
             android:background="@color/beauty_so_pl"
             android:text="@string/sign_up"
             android:textColor="@color/black"
