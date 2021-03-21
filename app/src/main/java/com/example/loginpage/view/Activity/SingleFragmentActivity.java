@@ -1,4 +1,4 @@
-package com.example.loginpage.Controller.Activity;
+package com.example.loginpage.view.Activity;
 
 import android.os.Bundle;
 

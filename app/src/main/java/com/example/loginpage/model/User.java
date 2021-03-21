@@ -1,11 +1,11 @@
-package com.example.loginpage.Model;
+package com.example.loginpage.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.loginpage.Database.Repository.UserSchema;
-import com.example.loginpage.Database.Repository.UserSchema.User.UserColumn;
+import com.example.loginpage.database.Repository.UserSchema;
+import com.example.loginpage.database.Repository.UserSchema.User.UserColumn;
 
 import java.io.Serializable;
 import java.util.UUID;

@@ -1,7 +1,6 @@
-package com.example.loginpage.Database;
+package com.example.loginpage.database;
 
 import androidx.room.TypeConverter;
-import androidx.room.TypeConverters;
 
 import java.util.UUID;
 

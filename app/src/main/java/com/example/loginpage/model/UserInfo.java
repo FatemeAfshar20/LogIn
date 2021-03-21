@@ -1,4 +1,4 @@
-package com.example.loginpage.Model;
+package com.example.loginpage.model;
 
 import android.os.Build;
 import android.os.Parcel;

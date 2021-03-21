@@ -1,4 +1,4 @@
-package com.example.loginpage.Database.Repository;
+package com.example.loginpage.database.Repository;
 
 public class UserSchema {
     public static final String  NAME="user.db";

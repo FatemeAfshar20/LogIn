@@ -1,9 +1,9 @@
-package com.example.loginpage.Controller.Activity;
+package com.example.loginpage.view.Activity;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.loginpage.Controller.Fragment.LogInFragment;
-import com.example.loginpage.Controller.Fragment.SignInFragment;
+import com.example.loginpage.view.Fragment.LogInFragment;
+import com.example.loginpage.view.Fragment.SignInFragment;
 import com.example.loginpage.R;
 
 public class Activity extends SingleFragmentActivity

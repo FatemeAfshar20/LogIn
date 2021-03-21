@@ -1,12 +1,12 @@
-package com.example.loginpage.Database.Repository;
+package com.example.loginpage.database.Repository;
 
 import android.content.Context;
 
 import androidx.room.Room;
 
-import com.example.loginpage.Database.UserDAO;
-import com.example.loginpage.Database.UserDatabase;
-import com.example.loginpage.Model.User;
+import com.example.loginpage.database.UserDAO;
+import com.example.loginpage.database.UserDatabase;
+import com.example.loginpage.model.User;
 
 import java.util.List;
 import java.util.UUID;
