@@ -51,7 +51,7 @@ public class LogInFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mVm=new ViewModelProvider(this).get(LogInVm.class);
+        mVm=new LogInVm(new UserDBRepository());
 
         mVm.getIsOk().observe(this, new Observer<Boolean>() {
             @Override

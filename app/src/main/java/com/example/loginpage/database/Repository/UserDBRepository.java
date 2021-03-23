@@ -1,8 +1,9 @@
 package com.example.loginpage.database.Repository;
 
+import android.app.Application;
 import android.content.Context;
 
-import androidx.room.Room;
+import androidx.lifecycle.LiveData;
 
 import com.example.loginpage.database.UserDAO;
 import com.example.loginpage.database.UserDatabase;
@@ -12,63 +13,41 @@ import java.util.List;
 import java.util.UUID;
 
 public class UserDBRepository implements IRepository<User> {
-    private static UserDBRepository sInstance;
-    private Context mContext;
-
     private UserDAO mDAO;
+    private UserDatabase mDatabase;
 
-    public static UserDBRepository getInstance(Context context) {
-        if (sInstance == null)
-            sInstance = new UserDBRepository(context);
-        return sInstance;
-    }
-
-    private UserDBRepository(Context context) {
-        mContext = context.getApplicationContext();
-
-        UserDatabase database =
-                Room.databaseBuilder(mContext,
-                        UserDatabase.class,
-                        UserSchema.NAME).
-                        allowMainThreadQueries().
-                        build();
-
-        mDAO=database.getUserDao();
+    public UserDBRepository() {
+        mDatabase =UserDatabase.getInstance();
+        mDAO=mDatabase.getUserDao();
     }
 
     @Override
-    public List<User> getList() {
+    public LiveData<List<User>> getList() {
         return mDAO.getList();
     }
 
     @Override
-    public User get(UUID id) {
+    public LiveData<User> get(UUID id) {
         return mDAO.get(id);
     }
 
-    public User get(String username) {
+    @Override
+    public LiveData<User> get(String username) {
         return mDAO.get(username);
     }
 
     @Override
-    public void delete(User user) {
-        mDAO.delete(user);
+    public void delete(final User user) {
+        mDatabase.executorDatabase.execute(()->mDAO.delete(user));
     }
 
     @Override
     public void insert(User user) {
-        mDAO.insert(user);
+        mDatabase.executorDatabase.execute(()->mDAO.insert(user));
     }
 
     @Override
     public void update(User user) {
-        mDAO.update(user);
+        mDatabase.executorDatabase.execute(()->mDAO.update(user));
     }
-
-    public boolean IsUserExist(String username){
-       if (mDAO.findUser(username)!=null)
-           return true;
-       return false;
-    }
-
 }

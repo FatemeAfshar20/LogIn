@@ -49,7 +49,7 @@ public class SignInFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mVM=new ViewModelProvider(this).get(SignVM.class);
+        mVM=new SignVM(new UserDBRepository());
 
         mVM.getIsOk().observe(this, new Observer<Boolean>() {
             @Override
