@@ -1,8 +1,5 @@
 package com.example.loginpage.database.Repository;
 
-import android.app.Application;
-import android.content.Context;
-
 import androidx.lifecycle.LiveData;
 
 import com.example.loginpage.database.UserDAO;
@@ -12,10 +9,15 @@ import com.example.loginpage.model.User;
 import java.util.List;
 import java.util.UUID;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class UserDBRepository implements IRepository<User> {
     private UserDAO mDAO;
     private UserDatabase mDatabase;
 
+    @Inject
     public UserDBRepository() {
         mDatabase =UserDatabase.getInstance();
         mDAO=mDatabase.getUserDao();

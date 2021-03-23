@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.loginpage.LoginApplication;
 import com.example.loginpage.database.Repository.UserDBRepository;
 import com.example.loginpage.model.User;
 import com.example.loginpage.R;
@@ -51,7 +52,7 @@ public class LogInFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mVm=new LogInVm(new UserDBRepository());
+        mVm= LoginApplication.sApplicationComponent.getLoginVm();
 
         mVm.getIsOk().observe(this, new Observer<Boolean>() {
             @Override

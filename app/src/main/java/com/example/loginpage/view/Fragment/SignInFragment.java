@@ -10,14 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.loginpage.database.Repository.UserDBRepository;
-import com.example.loginpage.model.User;
+import com.example.loginpage.LoginApplication;
 import com.example.loginpage.R;
 import com.example.loginpage.databinding.FragmentSigninBinding;
 import com.example.loginpage.viewModel.SignVM;
-import com.google.android.material.snackbar.Snackbar;
 
 public class SignInFragment extends Fragment {
     private FragmentSigninBinding mBinding;
@@ -49,7 +46,7 @@ public class SignInFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mVM=new SignVM(new UserDBRepository());
+        mVM=LoginApplication.sApplicationComponent.getSiginVm();
 
         mVM.getIsOk().observe(this, new Observer<Boolean>() {
             @Override

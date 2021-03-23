@@ -13,11 +13,14 @@ import com.example.loginpage.R;
 import com.example.loginpage.database.Repository.UserDBRepository;
 import com.example.loginpage.model.User;
 
+import javax.inject.Inject;
+
 public class SignVM extends ViewModel {
     private  User mUser=new User();
     private UserDBRepository mRepository;
     private MutableLiveData<Boolean> mIsOk=new MutableLiveData<>();
 
+    @Inject
     public SignVM(UserDBRepository userDBRepository) {
         mRepository =userDBRepository;
     }
